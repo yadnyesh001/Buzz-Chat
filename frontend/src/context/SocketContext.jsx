@@ -15,10 +15,24 @@ export const SocketContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		if (authUser) {
-			const socket = io(import.meta.env.VITE_SERVER_URL || "http://localhost:3000", {
+			const serverUrl = import.meta.env.VITE_SERVER_URL || "http://localhost:3000";
+			console.log("Connecting to socket server:", serverUrl);
+			
+			const socket = io(serverUrl, {
 				query: {
 					userId: authUser._id,
 				},
+				transports: ["websocket", "polling"], // Allow fallback to polling
+				withCredentials: true,
+			});
+
+			// Add connection event listeners for debugging
+			socket.on("connect", () => {
+				console.log("Socket connected:", socket.id);
+			});
+
+			socket.on("connect_error", (error) => {
+				console.error("Socket connection error:", error);
 			});
 
 			setSocket(socket);

@@ -7,8 +7,14 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
 	cors: {
-		origin: ["https://real-time-chat-application-jvzm.onrender.com", "http://localhost:5000"],
+		origin: [
+			"https://real-time-chat-application-jvzm.onrender.com",
+			"https://real-time-chat-app-production-oczp.onrender.com", 
+			"http://localhost:5173",
+			"http://localhost:3000"
+		],
 		methods: ["GET", "POST"],
+		credentials: true
 	},
 });
 
