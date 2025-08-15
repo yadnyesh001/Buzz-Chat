@@ -15,7 +15,7 @@ export const SocketContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		if (authUser) {
-			const serverUrl = import.meta.env.VITE_SERVER_URL || "http://localhost:3000";
+			const serverUrl ="https://real-time-chat-application-jvzm.onrender.com";
 			console.log("Connecting to socket server:", serverUrl);
 			
 			const socket = io(serverUrl, {
