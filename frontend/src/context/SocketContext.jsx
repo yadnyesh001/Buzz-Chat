@@ -15,7 +15,7 @@ export const SocketContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		if (authUser) {
-			const socket = io("https://real-time-chat-application-jvzm.onrender.com", {
+			const socket = io(import.meta.env.VITE_SERVER_URL || "http://localhost:3000", {
 				query: {
 					userId: authUser._id,
 				},
