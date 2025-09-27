@@ -15,34 +15,36 @@ export const SocketContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		if (authUser) {
-			const serverUrl ="https://real-time-chat-application-jvzm.onrender.com";
+			const configuredUrl = import.meta.env.VITE_SOCKET_SERVER_URL;
+			const defaultUrl = import.meta.env.DEV ? "http://localhost:5000" : window.location.origin;
+			const serverUrl = configuredUrl || defaultUrl;
 			console.log("Connecting to socket server:", serverUrl);
-			
-			const socket = io(serverUrl, {
+
+			const socketInstance = io(serverUrl, {
 				query: {
 					userId: authUser._id,
 				},
-				transports: ["websocket", "polling"], // Allow fallback to polling
+				transports: ["websocket", "polling"],
 				withCredentials: true,
 			});
 
 			// Add connection event listeners for debugging
-			socket.on("connect", () => {
-				console.log("Socket connected:", socket.id);
+			socketInstance.on("connect", () => {
+				console.log("Socket connected:", socketInstance.id);
 			});
 
-			socket.on("connect_error", (error) => {
+			socketInstance.on("connect_error", (error) => {
 				console.error("Socket connection error:", error);
 			});
 
-			setSocket(socket);
+			setSocket(socketInstance);
 
 			// socket.on() is used to listen to the events. can be used both on client and server side
-			socket.on("getOnlineUsers", (users) => {
+			socketInstance.on("getOnlineUsers", (users) => {
 				setOnlineUsers(users);
 			});
 
-			return () => socket.close();
+			return () => socketInstance.close();
 		} else {
 			if (socket) {
 				socket.close();
