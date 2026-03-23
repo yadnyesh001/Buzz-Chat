@@ -1,9 +1,13 @@
+import Avatar from "../Avatar";
+
 const Bot = () => {
 	return (
 		<div className='avatar online'>
-			<div className='w-12 rounded-full'>
-				<img src='https://cdn-icons-png.flaticon.com/512/1698/1698535.png' alt='user avatar' />
-			</div>
+			<Avatar
+				src='https://api.dicebear.com/9.x/bottts/svg?seed=ai-bot&backgroundColor=6366f1'
+				name='AI Bot'
+				size='w-12'
+			/>
 		</div>
 	);
 };

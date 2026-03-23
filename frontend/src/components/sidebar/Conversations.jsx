@@ -1,18 +1,17 @@
 import useGetConversations from "../../hooks/useGetConversations";
 import { getRandomEmoji } from "../../utils/emojis";
 import Conversation from "./Conversation";
-import Bot from "./Bot"; // Import Bot component
 
 const Conversations = () => {
 	const { loading, conversations } = useGetConversations();
 	const botConversation = {
 		_id: "ai-bot",
 		fullName: "AI Bot",
-		profilePic: "https://cdn-icons-png.flaticon.com/512/1698/1698535.png",
+		profilePic: "https://api.dicebear.com/9.x/bottts/svg?seed=ai-bot&backgroundColor=6366f1",
 	};
 
 	return (
-		<div className='py-2 flex flex-col overflow-auto'>
+		<div className='py-1 flex flex-col overflow-auto flex-1 gap-0.5'>
 			<Conversation
 				key={botConversation._id}
 				conversation={botConversation}
@@ -28,7 +27,7 @@ const Conversations = () => {
 				/>
 			))}
 
-			{loading ? <span className='loading loading-spinner mx-auto'></span> : null}
+			{loading ? <span className='loading loading-spinner mx-auto mt-4'></span> : null}
 		</div>
 	);
 };

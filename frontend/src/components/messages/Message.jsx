@@ -1,7 +1,9 @@
 import { useAuthContext } from "../../context/AuthContext";
 import { extractTime } from "../../utils/extractTime";
 import useConversation from "../../zustand/useConversation";
-import {Streamdown} from "streamdown"
+import Avatar from "../Avatar";
+import { Streamdown } from "streamdown";
+
 const Message = ({ message }) => {
 	const { authUser } = useAuthContext();
 	const { selectedConversation } = useConversation();
@@ -9,24 +11,22 @@ const Message = ({ message }) => {
 	const formattedTime = extractTime(message.createdAt);
 	const chatClassName = fromMe ? "chat-end" : "chat-start";
 	const profilePic = fromMe ? authUser.profilePic : selectedConversation?.profilePic;
-	const bubbleBgColor = fromMe ? "bg-blue-500" : "";
+	const profileName = fromMe ? authUser.fullName : selectedConversation?.fullName;
 
 	const shakeClass = message.shouldShake ? "shake" : "";
 
 	return (
 		<div className={`chat ${chatClassName}`}>
 			<div className='chat-image avatar'>
-				<div className='w-10 rounded-full'>
-					<img alt='Tailwind CSS chat bubble component' src={profilePic} />
-				</div>
+				<Avatar src={profilePic} name={profileName} size="w-9" />
 			</div>
-			<div className={`chat-bubble text-white ${bubbleBgColor} ${shakeClass} pb-2`}>
+			<div className={`chat-bubble ${fromMe ? "bg-blue-600 text-white" : "bg-gray-700/80 text-gray-100"} ${shakeClass} pb-2 shadow-md`}>
 				<Streamdown>
 					{message.message}
 				</Streamdown>
 			</div>
-			<div className='chat-footer opacity-50 text-xs flex gap-1 items-center'>{formattedTime}</div>
+			<div className='chat-footer opacity-40 text-xs flex gap-1 items-center mt-0.5'>{formattedTime}</div>
 		</div>
 	);
 };
-export default Message;	
+export default Message;
